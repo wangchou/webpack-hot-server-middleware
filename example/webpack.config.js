@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 const path = require('path');
 
 const dist = path.join(__dirname, 'dist');
@@ -6,12 +7,21 @@ module.exports = [
     {
         name: 'client',
         target: 'web',
-        entry: './client',
-        output: {
-            path: dist,
-            filename: 'client.js'
+        entry: {
+          main: [
+            'webpack-hot-middleware/client',
+            './client'
+          ]
         },
-        devtool: 'source-map'
+        output: {
+          path: dist,
+          publicPath: 'http://localhost:6060/',
+          filename: 'client.js'
+        },
+        devtool: 'source-map',
+        plugins: [
+          new webpack.HotModuleReplacementPlugin()
+        ]
     }, {
         name: 'server',
         target: 'node',
